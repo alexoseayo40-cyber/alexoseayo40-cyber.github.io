@@ -82,7 +82,7 @@
       const fila = FP.el("tr");
       fila.append(FP.el("td", dias[d]));
       for (const m of ["comida", "cena"]) {
-        const [s, apagado] = texto(casillas.find((c) => c.dia === d && c.momento === m));
+        const [s, apagado] = texto(casillas.find((c) => c.dia === d + 1 && c.momento === m));
         fila.append(FP.el("td", s, apagado ? "apagado" : null));
       }
       tabla.append(fila);
