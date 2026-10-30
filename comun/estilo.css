@@ -1,0 +1,103 @@
+/* FeedPlanner · páginas de los enlaces. Mismos colores que el tema Terracota de la app. */
+:root {
+  --papel: #FBF3E8;
+  --tarjeta: #FFFDF8;
+  --panel: #F3E4D0;
+  --borde: #E6D3BB;
+  --tinta: #2B1D14;
+  --suave: #6E5A4B;
+  --acento: #A63E1B;
+  --sobre-acento: #FFFFFF;
+  --acento-claro: #F4D9C9;
+  --texto-claro: #7A2D10;
+  --verde: #3F7A2E;
+  --verde-claro: #E3E8CF;
+  --verde-texto: #3F4A1B;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papel: #241B16;
+    --tarjeta: #372A22;
+    --panel: #45352A;
+    --borde: #56443A;
+    --tinta: #F5E9DC;
+    --suave: #BBA591;
+    --acento: #F0916F;
+    --sobre-acento: #2B1D14;
+    --acento-claro: #4A2A1D;
+    --texto-claro: #F5B9A0;
+    --verde: #9CC98A;
+    --verde-claro: #34402A;
+    --verde-texto: #DCE8CF;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font: 16px/1.5 "DM Sans", system-ui, sans-serif;
+}
+main { max-width: 640px; margin: 0 auto; padding: 0 16px 48px; }
+h1, h2, .marca { font-family: Fraunces, Georgia, serif; }
+h1 { font-size: 30px; line-height: 1.15; margin: 8px 0 6px; }
+h2 { font-size: 20px; margin: 28px 0 10px; }
+h3 {
+  font-size: 13px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--suave); margin: 22px 0 8px;
+}
+a { color: var(--acento); }
+
+.cabecera { display: flex; align-items: center; gap: 10px; padding: 16px 0 8px; }
+.cabecera .marca { font-weight: 700; font-size: 20px; }
+.plato {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: conic-gradient(#C9653D 0 14%, #7E8A45 0 28%, #C9A15A 0 42%, #D98560 0 57%, #5B6727 0 71%, #B8461F 0 85%, #E8B48E 0);
+  display: flex; align-items: center; justify-content: center;
+}
+.plato::after { content: ""; width: 24px; height: 24px; border-radius: 50%; background: var(--tarjeta); }
+
+.foto { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; display: block; background: var(--panel); }
+.autor { display: flex; align-items: center; gap: 10px; color: var(--suave); margin-top: 14px; }
+.avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--acento-claro); color: var(--texto-claro);
+  font: 700 15px Fraunces, Georgia, serif; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.autor b { color: var(--tinta); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 4px; padding: 0; list-style: none; }
+.chips li { padding: 5px 11px; border-radius: 999px; background: var(--panel); font-size: 14px; }
+.descripcion { color: var(--suave); white-space: pre-line; }
+
+.tarjeta { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 18px; padding: 16px; }
+ul.ingredientes { margin: 0; padding-left: 20px; }
+ul.ingredientes li { margin: 4px 0; }
+ol.pasos { margin: 0; padding-left: 22px; }
+ol.pasos li { margin: 10px 0; }
+.tiempo { color: var(--suave); font-size: 14px; white-space: nowrap; }
+
+.botones { display: flex; flex-direction: column; gap: 10px; margin: 24px 0 8px; }
+.boton {
+  display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px;
+  border-radius: 999px; font-weight: 700; font-size: 16px; text-decoration: none; text-align: center;
+  background: var(--acento); color: var(--sobre-acento); border: 0;
+}
+.boton.secundario { background: transparent; color: var(--acento); border: 1.5px solid var(--acento); }
+.nota { font-size: 14px; color: var(--suave); text-align: center; }
+
+.semana { width: 100%; border-collapse: collapse; font-size: 15px; }
+.semana th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--suave); padding: 6px 4px; }
+.semana td { padding: 8px 4px; border-top: 1px solid var(--borde); vertical-align: top; }
+.semana td:first-child { font-weight: 700; width: 48px; }
+.apagado { color: var(--suave); }
+
+.receta-lista { display: grid; gap: 10px; }
+.receta-lista details { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 14px; padding: 12px 14px; }
+.receta-lista summary { cursor: pointer; font-weight: 700; }
+
+.codigo { font: 700 32px Fraunces, Georgia, serif; letter-spacing: .06em; text-align: center; margin: 8px 0; }
+.aviso { background: var(--acento-claro); color: var(--texto-claro); border-radius: 14px; padding: 12px 14px; }
+.cargando { color: var(--suave); padding: 40px 0; text-align: center; }

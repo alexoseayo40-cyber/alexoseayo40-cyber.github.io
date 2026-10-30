@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "es.alexrm.feedplanner",
+      "sha256_cert_fingerprints": [
+        "60:91:2A:2F:C8:42:00:9B:1A:1C:31:78:EC:D7:36:F1:74:93:A4:65:E5:67:41:46:BC:95:E2:AD:F2:6B:26:9F"
+      ]
+    }
+  }
+]

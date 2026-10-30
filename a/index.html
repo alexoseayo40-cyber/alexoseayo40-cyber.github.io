@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invitación · FeedPlanner</title>
+<meta name="description" content="Te han invitado a ser amigos en FeedPlanner para pasaros recetas.">
+<meta property="og:title" content="Te invitan a ser amigos en FeedPlanner">
+<meta property="og:description" content="Para pasaros recetas, colecciones y menús de la semana.">
+<meta name="theme-color" content="#A63E1B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@600;700&display=swap">
+<link rel="stylesheet" href="../comun/estilo.css">
+</head>
+<body>
+<main>
+  <header class="cabecera"><span class="plato" aria-hidden="true"></span><span class="marca">FeedPlanner</span></header>
+  <div id="contenido"></div>
+</main>
+<script src="../comun/feedplanner.js"></script>
+<script>
+"use strict";
+(() => {
+  const t = FP.t.bind(FP);
+  const q = new URLSearchParams(location.search);
+  const codigo = (q.get("c") || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8);
+  const nombre = (q.get("n") || "").slice(0, 40);
+  const caja = document.getElementById("contenido");
+  const quien = FP.el("div", null, "autor");
+  quien.append(FP.avatar(nombre || "?"));
+  const frase = FP.el("span");
+  if (nombre) frase.append(FP.el("b", nombre));
+  frase.append(nombre ? t(" te invita a ser su amigo", " invites you to be friends") : t("Te invitan a ser amigos", "You're invited to be friends"));
+  quien.append(frase);
+  caja.append(quien);
+  caja.append(FP.el("h1", t("Amigos en FeedPlanner", "Friends on FeedPlanner")));
+  caja.append(FP.el("p", t("Para pasaros recetas, colecciones y menús de la semana. Nada de vuestra casa (despensa, compra, alergias) se comparte.",
+    "To share recipes, collections and weekly menus. Nothing from your home (pantry, shopping, allergies) is shared."), "descripcion"));
+  if (/^[A-Z0-9]{8}$/.test(codigo)) {
+    const c = FP.el("div", null, "tarjeta");
+    c.append(FP.el("p", t("Su código", "Their code"), "nota"));
+    c.append(FP.el("p", codigo.slice(0, 4) + "-" + codigo.slice(4), "codigo"));
+    caja.append(c);
+  }
+  FP.pintarBotones(caja, t("Aceptar en FeedPlanner", "Accept in FeedPlanner"));
+  caja.append(FP.el("p", t("Si ya tienes la app y no se abre: FeedPlanner → Yo → Amigos → Escribir código.",
+    "If you have the app and it doesn't open: FeedPlanner → Me → Friends → Enter code."), "nota"));
+})();
+</script>
+</body>
+</html>

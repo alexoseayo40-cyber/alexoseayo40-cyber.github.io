@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FeedPlanner</title>
+<meta name="description" content="FeedPlanner: el menú de la semana, la lista de la compra y tu recetario. App para Android, en pruebas.">
+<meta name="theme-color" content="#A63E1B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@600;700&display=swap">
+<link rel="stylesheet" href="comun/estilo.css">
+</head>
+<body>
+<main>
+  <header class="cabecera"><span class="plato" aria-hidden="true"></span><span class="marca">FeedPlanner</span></header>
+  <h1>El menú de la semana, la compra y tu recetario</h1>
+  <p class="descripcion">FeedPlanner es una app para Android que hace el menú de la semana con tus recetas, saca la lista de la compra y lleva la despensa. Se comparte con tu casa y, si quieres, pasas recetas a tus amigos. Ahora está en pruebas.</p>
+  <div class="botones"><a class="boton" id="bajar" href="#">Descargar FeedPlanner (Android)</a></div>
+  <p class="nota">Al abrir el archivo, Android pregunta si permites instalar apps de fuera de Google Play.</p>
+</main>
+<script src="comun/feedplanner.js"></script>
+<script>document.getElementById("bajar").href = FP.DESCARGA;</script>
+</body>
+</html>

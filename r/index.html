@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Receta compartida · FeedPlanner</title>
+<meta name="description" content="Una receta que te han pasado con FeedPlanner. Ábrela en la app para guardarla en tu recetario.">
+<meta property="og:title" content="Te han pasado una receta en FeedPlanner">
+<meta property="og:description" content="Ábrela para verla o guardarla en tu recetario.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#A63E1B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@600;700&display=swap">
+<link rel="stylesheet" href="../comun/estilo.css">
+</head>
+<body>
+<main>
+  <header class="cabecera"><span class="plato" aria-hidden="true"></span><span class="marca">FeedPlanner</span></header>
+  <div id="contenido"><p class="cargando">Cargando…</p></div>
+</main>
+<script src="../comun/feedplanner.js"></script>
+<script>
+"use strict";
+(async () => {
+  const caja = document.getElementById("contenido");
+  const id = new URLSearchParams(location.search).get("id") || "";
+  const t = FP.t.bind(FP);
+  const fallo = (texto) => {
+    caja.replaceChildren(FP.el("p", texto, "aviso"));
+    FP.pintarBotones(caja, t("Abrir FeedPlanner", "Open FeedPlanner"));
+  };
+  if (!/^[0-9a-f-]{36}$/i.test(id)) return fallo(t("Este enlace no está completo.", "This link is incomplete."));
+  let p;
+  try { p = await FP.verPublicacion(id); } catch (e) {
+    return fallo(t("No se ha podido cargar. Mira si tienes internet y vuelve a abrir el enlace.", "Couldn't load it. Check your connection and open the link again."));
+  }
+  if (!p) return fallo(t("Esto ya no está compartido.", "This is no longer shared."));
+
+  const datos = p.datos || {};
+  const recetas = (datos.recetas || []).map((r) => ({ ...FP.leerReceta(r.texto), fotos: (r.fotos || []).map((f) => FP.urlFoto(f)).filter(Boolean) }));
+  const nombre = (p.autor && p.autor.nombre) || "FeedPlanner";
+  document.title = p.titulo + " · FeedPlanner";
+  caja.replaceChildren();
+
+  const portada = (p.resumen && FP.urlFoto(p.resumen.foto)) || (recetas[0] && recetas[0].fotos[0]);
+  if (portada) {
+    const img = FP.el("img", null, "foto");
+    img.src = portada; img.alt = p.titulo; img.loading = "eager";
+    caja.append(img);
+  }
+  const quien = FP.el("div", null, "autor");
+  quien.append(FP.avatar(nombre));
+  const frase = FP.el("span");
+  frase.append(FP.el("b", nombre));
+  frase.append(p.tipo === "semana" ? t(" te pasa su semana", " shares their week")
+    : p.tipo === "coleccion" ? t(" te pasa su colección", " shares their collection")
+    : t(" te pasa esta receta", " shares this recipe"));
+  quien.append(frase);
+  caja.append(quien);
+  caja.append(FP.el("h1", p.titulo));
+
+  const textoAbrir = p.tipo === "receta" ? t("Guardarla en FeedPlanner", "Save it in FeedPlanner")
+    : t("Abrirla en FeedPlanner", "Open it in FeedPlanner");
+  FP.pintarBotones(caja, textoAbrir);
+
+  if (p.tipo === "receta" && recetas[0]) {
+    FP.pintarReceta(caja, recetas[0], false);
+  } else if (p.tipo === "semana" && datos.semana) {
+    const dias = t("Lun Mar Mié Jue Vie Sáb Dom", "Mon Tue Wed Thu Fri Sat Sun").split(" ");
+    const tabla = FP.el("table", null, "semana tarjeta");
+    const cab = FP.el("tr");
+    cab.append(FP.el("th", ""), FP.el("th", t("Comida", "Lunch")), FP.el("th", t("Cena", "Dinner")));
+    tabla.append(cab);
+    const casillas = datos.semana.casillas || [];
+    const texto = (c) => {
+      if (!c) return ["—", true];
+      const n = (i) => (i != null && recetas[i]) ? recetas[i].nombre : null;
+      const platos = [n(c.primero), n(c.receta)].filter(Boolean);
+      return platos.length ? [platos.join(" + "), false] : [c.texto || "—", true];
+    };
+    for (let d = 0; d < 7; d++) {
+      const fila = FP.el("tr");
+      fila.append(FP.el("td", dias[d]));
+      for (const m of ["comida", "cena"]) {
+        const [s, apagado] = texto(casillas.find((c) => c.dia === d && c.momento === m));
+        fila.append(FP.el("td", s, apagado ? "apagado" : null));
+      }
+      tabla.append(fila);
+    }
+    caja.append(tabla);
+  }
+  if (p.tipo !== "receta" && recetas.length) {
+    caja.append(FP.el("h3", t("Recetas · ", "Recipes · ") + recetas.length));
+    const lista = FP.el("div", null, "receta-lista");
+    recetas.forEach((r) => {
+      const d = FP.el("details");
+      d.append(FP.el("summary", r.nombre));
+      FP.pintarReceta(d, r, false);
+      lista.append(d);
+    });
+    caja.append(lista);
+  }
+})();
+</script>
+</body>
+</html>
