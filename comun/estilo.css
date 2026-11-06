@@ -54,12 +54,9 @@ a { color: var(--acento); }
 
 .cabecera { display: flex; align-items: center; gap: 10px; padding: 16px 0 8px; }
 .cabecera .marca { font-weight: 700; font-size: 20px; }
-.plato {
-  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-  background: conic-gradient(#C9653D 0 14%, #7E8A45 0 28%, #C9A15A 0 42%, #D98560 0 57%, #5B6727 0 71%, #B8461F 0 85%, #E8B48E 0);
-  display: flex; align-items: center; justify-content: center;
-}
-.plato::after { content: ""; width: 24px; height: 24px; border-radius: 50%; background: var(--tarjeta); }
+/* El logo de siempre (noviembre de 2026): los 7 gajos con los colores del año y el tenedor negro. */
+.plato { width: 36px; height: 36px; flex-shrink: 0; display: block; }
+.logo-grande { display: block; width: 132px; height: 132px; margin: 18px 0 4px; }
 
 .foto { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; display: block; background: var(--panel); }
 .autor { display: flex; align-items: center; gap: 10px; color: var(--suave); margin-top: 14px; }
